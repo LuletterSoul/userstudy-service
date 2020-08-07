@@ -1,0 +1,39 @@
+score_types:
+  [   {
+        'score_type': 'shape_score',
+        'effect': 'Exaggeration Quality',
+        'tag': '夸张质量',
+        'des':'指夸张的是否合理是否夸大了人物的主要特征',
+        'tag_color': '#2D8CF0',
+        'bt_type': 'primary',
+        'rank': 10,
+        'default_value': 8,
+        'value': 8
+      },
+      {
+        'score_type': 'texture_score',
+        'effect': 'Texture Quality',
+        'tag': '纹理质量',
+        'des': '指生成图的纹理风格是否接近真实漫画',
+        'tag_color': '#19BE6B',
+        'bt_type': 'success',
+        'rank': 10,
+        'default_value': 8,
+        'value': 8
+      },
+      {
+        'score_type': 'general_score',
+        'effect': 'Global Quality',
+        'tag': '整体质量',
+        'des': '指生成漫画的整体质量',
+        'tag_color':'#F90',
+        'bt_type': 'warning',
+        'rank': 10,
+        'default_value': 8,
+        'value': 8
+      }]
+cmp_methods:
+  - WarpGAN
+  - CAST
+  - hand
+study_group_num: 47
