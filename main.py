@@ -79,7 +79,7 @@ def sort_humanly(v_list):  # 以分割后的list为单位进行排序
     :param v_list:
     :return:
     """
-    return sorted(v_list, key=str2int, reverse=True)
+    return sorted(v_list, key=str2int)
 
 
 config = None
@@ -96,17 +96,24 @@ class HttpServer(object):
         with open(config_path) as f:
             global config
             config = yaml.load(f)
+            os.makedirs(config['data_path'], exist_ok=True)
 
     @staticmethod
-    @app.route('/photos/<content>/<filename>', methods=['GET'])
-    def photos_by_content(content, filename):
-        url = "user_study/{}/{}".format(content, filename)
+    @app.route('/photos/<directory>/<content>/<filename>', methods=['GET'])
+    def photos_by_content(directory, content, filename):
+        # url = f"{config['data_path']}/{content}/{filename}"
+        url = os.path.join(config['data_path'], directory, content, filename)
+        print(url)
         return app.send_static_file(url)
 
     @staticmethod
     @app.route('/user_study', methods=['GET'])
     def user_study():
-        return jsonify(query_directory_child_list('user_study'))
+        dirnames = os.listdir(config['data_path'])
+        data = {}
+        for d in dirnames:
+            data[str(d)] = query_directory_child_list(os.path.join(config['data_path'], d))
+        return jsonify(data)
 
     @staticmethod
     @app.route('/scores', methods=['POST'])
@@ -114,10 +121,11 @@ class HttpServer(object):
         json_data = json.loads(request.get_data().decode('utf-8'))
         scores = json_data['scores']
         user_id = json_data['user_id']
-        score_path = f'scores/{user_id}.json'
-        if os.path.exists(score_path):
-            order = len(list(Path('scores').glob(f'{user_id}*')))
-            score_path = f'scores/{user_id}_{order}.json'
+        order = json_data['order']
+        score_path = f'scores/{user_id}_{order}.json'
+        # if os.path.exists(score_path):
+        #     order = len(list(Path('scores').glob(f'{user_id}*')))
+        #     score_path = f'scores/{user_id}_{order}.json'
         with open(score_path, 'w') as fw:
             fw.write(json.dumps(scores, indent=4))
             fw.close()
@@ -146,8 +154,9 @@ if __name__ == '__main__':
     # parser.add_argument('--http_ip', type=str, default="10.196.122.94", help='Http server ip address')
     parser.add_argument('--http_ip', type=str, default="127.0.0.1", help='Http server ip address')
     parser.add_argument('--http_port', type=int, default=8080, help='Http server listen port')
-    parser.add_argument('--root', type=str, default="data/candidates", help='Http server listen port')
+    parser.add_argument('--root', type=str, default=".", help='Http server listen port')
+    parser.add_argument('--config', type=str, default="config/base.yaml", help='Http server configuration')
     args = parser.parse_args()
-    http = HttpServer(args.http_ip, args.http_port)
+    http = HttpServer(args.http_ip, args.http_port, root=args.root, config_path=args.config)
     http.run_front()
     # print(query_directory_child_list('user_study'))

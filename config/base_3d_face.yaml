@@ -1,0 +1,40 @@
+score_types:
+  [   {
+        'score_type': 'general_score',
+        'effect': 'General Quality',
+        'tag': '整体质量',
+        'des':'对人脸整体形状打分',
+        'tag_color': '#2D8CF0',
+        'bt_type': 'primary',
+        'rank': 10,
+        'default_value': 8,
+        'value': 8
+      },
+      {
+        'score_type': 'texture_score',
+        'effect': 'Texture Quality',
+        'tag': '相似程度',
+        'des': '对与原图草图相似程度打分',
+        'tag_color': '#19BE6B',
+        'bt_type': 'success',
+        'rank': 10,
+        'default_value': 8,
+        'value': 8
+      },
+      {
+        'score_type': 'wrinkle_score',
+        'effect': 'Wrinkle Quality',
+        'tag': '恢复质量',
+        'des': '对人脸皱纹恢复程度打分',
+        'tag_color':'#F90',
+        'bt_type': 'warning',
+        'rank': 10,
+        'default_value': 8,
+        'value': 8
+      }]
+cmp_methods:
+  - WarpGAN
+  - CAST
+  - hand
+study_group_num: 47
+data_path: data/face_3d
