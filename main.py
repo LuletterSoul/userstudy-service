@@ -97,6 +97,7 @@ class HttpServer(object):
             global config
             config = yaml.load(f)
             os.makedirs(config['data_path'], exist_ok=True)
+            os.makedirs(config['scores_path'],exist_ok=True)
 
     @staticmethod
     @app.route('/photos/<directory>/<content>/<filename>', methods=['GET'])
@@ -119,16 +120,17 @@ class HttpServer(object):
     @app.route('/scores', methods=['POST'])
     def scores():
         json_data = json.loads(request.get_data().decode('utf-8'))
-        scores = json_data['scores']
+        scores_res = json_data['scores']
         user_id = json_data['user_id']
-        order = json_data['order']
-        score_path = f'scores/{user_id}_{order}.json'
-        # if os.path.exists(score_path):
-        #     order = len(list(Path('scores').glob(f'{user_id}*')))
-        #     score_path = f'scores/{user_id}_{order}.json'
-        with open(score_path, 'w') as fw:
-            fw.write(json.dumps(scores, indent=4))
-            fw.close()
+        print(scores_res)
+        for task, scores in scores_res.items():
+            score_path = f'scores/{user_id}_{task}.json'
+            # if os.path.exists(score_path):
+            #     order = len(list(Path('scores').glob(f'{user_id}*')))
+            #     score_path = f'scores/{user_id}_{order}.json'
+            with open(score_path, 'w') as fw:
+                fw.write(json.dumps(scores, indent=4))
+                fw.close()
         return 'success'
 
     @staticmethod

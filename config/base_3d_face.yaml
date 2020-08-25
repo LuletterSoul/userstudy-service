@@ -2,7 +2,7 @@ score_types:
   [   {
         'score_type': 'general_score',
         'effect': 'General Quality',
-        'tag': '整体质量',
+        'tag': '整体形状',
         'des':'对人脸整体形状打分',
         'tag_color': '#2D8CF0',
         'bt_type': 'primary',
@@ -24,7 +24,7 @@ score_types:
       {
         'score_type': 'wrinkle_score',
         'effect': 'Wrinkle Quality',
-        'tag': '恢复质量',
+        'tag': '皱纹恢复',
         'des': '对人脸皱纹恢复程度打分',
         'tag_color':'#F90',
         'bt_type': 'warning',
@@ -38,3 +38,4 @@ cmp_methods:
   - hand
 study_group_num: 47
 data_path: data/face_3d
+scores_path: scores/face_3d
