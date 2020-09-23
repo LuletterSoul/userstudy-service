@@ -24,7 +24,7 @@ score_types:
       {
         'score_type': 'wrinkle_score',
         'effect': 'Wrinkle Quality',
-        'tag': '皱纹恢复',
+        'tag': '细节恢复',
         'des': '对人脸皱纹恢复程度打分',
         'tag_color':'#F90',
         'bt_type': 'warning',

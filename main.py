@@ -93,7 +93,7 @@ class HttpServer(object):
         self.env = env
         self.set_root(root)
 
-        with open(config_path) as f:
+        with open(config_path,encoding='UTF-8') as f:
             global config
             config = yaml.load(f)
             os.makedirs(config['data_path'], exist_ok=True)
