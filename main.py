@@ -47,6 +47,26 @@ def query_directory(dir_name):
             os.path.isdir(os.path.join(dir_name, d))]
 
 
+def sort_cari_humanly(v_list):  # 以分割后的list为单位进行排序
+    """
+    sort list strings according string and number
+    :param v_list:
+    :return:
+    """
+    v_list = sorted(v_list, key=str2int)
+    # print(v_list)
+    list = []
+    list.append(v_list[4])
+    index = [0, 1, 2, 3, 5]
+    shuffle(index)
+    for i in index:
+        list.append(v_list[i])
+    # print(list)
+    # print(index)
+    # print(sorted(v_list, key=str2int))
+    return list, index
+
+
 def query_directory_child_list(dir_name):
     """
     return a directory folder tree recursively, exit if meet a file endpoint.
@@ -61,7 +81,7 @@ def query_directory_child_list(dir_name):
     shuffle(sun_dir_names)
     li = []
     for d in sun_dir_names:
-        filelist, indexlist = sort_humanly([ls for ls in os.listdir(os.path.join(dir_name, d))])
+        filelist, indexlist = sort_cari_humanly([ls for ls in os.listdir(os.path.join(dir_name, d))])
         li.append({'content': d, 'filenames': filelist, 'index': indexlist})
     return li
     # return [{'content': d, 'filenames': sort_humanly([ls for ls in os.listdir(os.path.join(dir_name, d))])}
