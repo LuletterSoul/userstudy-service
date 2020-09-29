@@ -1,0 +1,54 @@
+score_types:
+  [   {
+        'score_type': 'general_best',
+        'effect': 'the best General Quality',
+        'tag': '整体效果最好',
+        'des':'选出整体效果最好的漫画',
+        'tag_color': '#2D8CF0',
+        'bt_type': 'primary',
+        'rank': 5,
+      },
+      {
+        'score_type': 'general_worst',
+        'effect': 'the worst General Quality',
+        'tag': '整体效果最差',
+        'des': '选出整体效果最差的漫画',
+        'tag_color': '#19BE6B',
+        'bt_type': 'success',
+        'rank': 5,
+      },
+      {
+        'score_type': 'warp_best',
+        'effect': 'the best Warp Quality',
+        'tag': '形变效果最好',
+        'des': '选出形变效果最好的漫画',
+        'tag_color':'#F90',
+        'bt_type': 'warning',
+        'rank': 5,
+      },
+      {
+        'score_type': 'warp_worst',
+        'effect': 'the worst Warp Quality',
+        'tag': '形变效果最差',
+        'des': '选出形变效果最差的漫画',
+        'tag_color':'#F00',
+        'bt_type': 'error',
+        'rank': 5,
+      }
+  ]
+
+rank_types:
+  [   {
+        ''
+      }]
+
+cmp_methods:
+  - cycleGAN
+  - MUNIT
+  - cariGANs
+  - warpGAN
+  - MWGAN
+
+study_group_num: 1147
+data_path: data/photo2caricature
+scores_path: scores

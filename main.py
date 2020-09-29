@@ -22,7 +22,7 @@ from flask_cors import CORS
 import json
 from pathlib import Path
 import json
-from random import shuffle
+from random import shuffle, sample
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -42,6 +42,7 @@ def query_directory(dir_name):
     sun_dir_names = [l for l in os.listdir(dir_name) if not l.startswith('.')]
     if not len(sun_dir_names):
         return []
+
     return [{'value': d, 'label': d, 'children': query_directory(os.path.join(dir_name, d))} for d in sun_dir_names if
             os.path.isdir(os.path.join(dir_name, d))]
 
@@ -52,14 +53,20 @@ def query_directory_child_list(dir_name):
     :param dir_name:
     :return:
     """
-    sun_dir_names = [l for l in os.listdir(dir_name) if not l.startswith('.')]
+    sun_dir_names = [l for l in sample(os.listdir(dir_name), 100) if not l.startswith('.')]
+    # print(len(sun_dir_names))
     if not len(sun_dir_names):
         return []
     # sun_dir_names = sort_humanly(sun_dir_names)
     shuffle(sun_dir_names)
-    return [{'content': d, 'filenames': sort_humanly([ls for ls in os.listdir(os.path.join(dir_name, d))])}
-            for d in
-            sun_dir_names]
+    li = []
+    for d in sun_dir_names:
+        filelist, indexlist = sort_humanly([ls for ls in os.listdir(os.path.join(dir_name, d))])
+        li.append({'content': d, 'filenames': filelist, 'index': indexlist})
+    return li
+    # return [{'content': d, 'filenames': sort_humanly([ls for ls in os.listdir(os.path.join(dir_name, d))])}
+    #         for d in
+    #         sun_dir_names]
 
 
 def tryint(s):  # 将元素中的数字转换为int后再排序
@@ -79,7 +86,16 @@ def sort_humanly(v_list):  # 以分割后的list为单位进行排序
     :param v_list:
     :return:
     """
-    return sorted(v_list, key=str2int)
+    list = []
+    list.append(v_list[4])
+    index = [0, 1, 2, 3, 5]
+    shuffle(index)
+    for i in index:
+        list.append(v_list[i])
+    print(list)
+    print(index)
+    # print(sorted(v_list, key=str2int))
+    return list, index
 
 
 config = None
@@ -87,33 +103,33 @@ config = None
 
 class HttpServer(object):
 
-    def __init__(self, host_ip="127.0.0.1", host_port="8080", env='dev', root=".", config_path='config/base.yaml'):
+    def __init__(self, host_ip="127.0.0.1", host_port="8080", env='dev', root=".",
+                 config_path='config/base_caricature.yaml'):
         self.host_ip = host_ip
         self.host_port = host_port
         self.env = env
         self.set_root(root)
 
-        with open(config_path,encoding='UTF-8') as f:
+        with open(config_path, encoding='UTF-8') as f:
             global config
             config = yaml.load(f)
             os.makedirs(config['data_path'], exist_ok=True)
-            os.makedirs(config['scores_path'],exist_ok=True)
+            os.makedirs(config['scores_path'], exist_ok=True)
 
     @staticmethod
-    @app.route('/photos/<directory>/<content>/<filename>', methods=['GET'])
-    def photos_by_content(directory, content, filename):
+    @app.route('/photos/<content>/<filename>', methods=['GET'])
+    def photos_by_content(content, filename):
         # url = f"{config['data_path']}/{content}/{filename}"
-        url = os.path.join(config['data_path'], directory, content, filename)
-        print(url)
+        url = os.path.join(config['data_path'], content, filename)
+        url = url.replace('\\', '/')
+        # print(url)
         return app.send_static_file(url)
 
     @staticmethod
     @app.route('/user_study', methods=['GET'])
     def user_study():
-        dirnames = os.listdir(config['data_path'])
-        data = {}
-        for d in dirnames:
-            data[str(d)] = query_directory_child_list(os.path.join(config['data_path'], d))
+        data = query_directory_child_list(config['data_path'])
+        # print(data)
         return jsonify(data)
 
     @staticmethod
@@ -122,7 +138,6 @@ class HttpServer(object):
         json_data = json.loads(request.get_data().decode('utf-8'))
         scores_res = json_data['scores']
         user_id = json_data['user_id']
-        print(scores_res)
         for task, scores in scores_res.items():
             score_path = f'scores/{user_id}_{task}.json'
             # if os.path.exists(score_path):
@@ -157,7 +172,7 @@ if __name__ == '__main__':
     parser.add_argument('--http_ip', type=str, default="127.0.0.1", help='Http server ip address')
     parser.add_argument('--http_port', type=int, default=8080, help='Http server listen port')
     parser.add_argument('--root', type=str, default=".", help='Http server listen port')
-    parser.add_argument('--config', type=str, default="config/base.yaml", help='Http server configuration')
+    parser.add_argument('--config', type=str, default="config/base_caricature.yaml", help='Http server configuration')
     args = parser.parse_args()
     http = HttpServer(args.http_ip, args.http_port, root=args.root, config_path=args.config)
     http.run_front()
