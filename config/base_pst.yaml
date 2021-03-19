@@ -1,0 +1,43 @@
+score_types:
+  [
+    {
+      "score_type": "structural_best",
+      "effect": "the best General Quality",
+      "tag": "结构性最好",
+      "des": "选出整体噪声最少且结构最完整的照片",
+      "tag_color": "#2D8CF0",
+      "bt_type": "primary",
+      "rank": 7,
+    },
+    {
+      "score_type": "stylization_best",
+      "effect": "the worst General Quality",
+      "tag": "风格化最优",
+      "des": "选出风格化效果最好的照片",
+      "tag_color": "#19BE6B",
+      "bt_type": "success",
+      "rank": 7,
+    },
+    {
+      "score_type": "photolism_best",
+      "effect": "the best Warp Quality",
+      "tag": "整体质量最好",
+      "des": "选出真实感最好的照片",
+      "tag_color": "#F90",
+      "bt_type": "warning",
+      "rank": 7,
+    },
+  ]
+
+rank_types: [{ "" }]
+
+cmp_methods:
+  - cycleGAN
+  - MUNIT
+  - cariGANs
+  - warpGAN
+  - MWGAN
+
+study_group_num: 1147
+data_path: data/20210317_rpnet_sota
+scores_path: scores/20210317_rpnet_pst
