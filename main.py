@@ -124,9 +124,9 @@ def sort_humanly(v_list):  # 以分割后的list为单位进行排序
     :return:
     """
     v_list = sorted(v_list, key=str2int)
-    other_list = v_list[2:]
+    other_list = v_list[1:]
     shuffle(other_list)
-    return v_list[:2] + other_list
+    return v_list[:1] + other_list
 
 # def sort_humanly(v_list):  # 以分割后的list为单位进行排序
 #     """
@@ -227,7 +227,7 @@ if __name__ == '__main__':
     parser.add_argument('--root', type=str, default=".",
                         help='Http server listen port')
     parser.add_argument(
-        '--config', type=str, default="config/base_pst.yaml", help='Http server configuration')
+        '--config', type=str, default="config/base_cast.yaml", help='Http server configuration')
     args = parser.parse_args()
     http = HttpServer(args.http_ip, args.http_port,
                       root=args.root, config_path=args.config)

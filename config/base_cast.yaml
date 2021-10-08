@@ -1,0 +1,73 @@
+score_types:
+  [   {
+        'score_type': 'general_best',
+        'effect': 'the best General Quality',
+        'tag': '整体效果最好',
+        'des':'选出整体效果最好的漫画',
+        'tag_color': '#2D8CF0',
+        'bt_type': 'primary',
+        'rank': 4,
+      },
+      {
+        'score_type': 'texture_best',
+        'effect': 'the best Texture Quality',
+        'tag': '纹理效果最好',
+        'des': '选出纹理效果最好的漫画',
+        'tag_color':'#2D8CF0',
+        'bt_type': 'primary',
+        'rank': 4,
+      },
+      {
+        'score_type': 'warp_best',
+        'effect': 'the best Warp Quality',
+        'tag': '形变效果最好',
+        'des': '选出形变效果最好的漫画',
+        'tag_color':'#2D8CF0',
+        'bt_type': 'primary',
+        'rank': 4,
+      },
+      {
+        'score_type': 'general_worst',
+        'effect': 'the worst General Quality',
+        'tag': '整体效果最差',
+        'des': '选出整体效果最差的漫画',
+        'tag_color': '#F00',
+        'bt_type': 'error',
+        'rank': 4,
+      },
+      {
+        'score_type': 'texture_worst',
+        'effect': 'the worst Texture Quality',
+        'tag': '纹理效果最差',
+        'des': '选出纹理效果最差的漫画',
+        'tag_color':'#F00',
+        'bt_type': 'error',
+        'rank': 4,
+      },
+      {
+        'score_type': 'warp_worst',
+        'effect': 'the worst Warp Quality',
+        'tag': '形变效果最差',
+        'des': '选出形变效果最差的漫画',
+        'tag_color':'#F00',
+        'bt_type': 'error',
+        'rank': 4,
+      }
+  ]
+rank_types: [{ "" }]
+
+cmp_methods:
+  - cycleGAN
+  - MUNIT
+  - cariGANs
+  - warpGAN
+  - MWGAN
+
+study_group_num: 1147
+# data_path: data/20210317_rpnet_sota
+# scores_path: scores/20210317_rpnet_pst
+# data_path: data/2021-10-05-135703-data
+# data_path: data/2021-10-05-160526-data
+data_path: data/2021-10-08-161911-data
+# data_path: data/2021-10-05-test
+scores_path: scores/2021-10-08-161911-data
